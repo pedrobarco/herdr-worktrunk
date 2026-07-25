@@ -45,7 +45,7 @@ branch_refs=(refs/heads refs/remotes)
 if command -v fzf >/dev/null; then
   choice=$(
     {
-      wt list --format=json 2>/dev/null \
+      wt --config-set list.json-schema=1 list --format=json 2>/dev/null \
         | jq -r '.[] | select(.branch != null) | .branch'
       # Drop origin/HEAD: its short form is bare "origin", so filter on the full
       # refname (refs/remotes/origin/HEAD) instead, then emit the short name.
@@ -118,7 +118,7 @@ fi
 
 wtpath=$(printf '%s\n' "$result" | jq -r '.path // empty' 2>/dev/null)
 if [[ -z $wtpath ]]; then
-  wtpath=$(wt list --format=json 2>/dev/null \
+  wtpath=$(wt --config-set list.json-schema=1 list --format=json 2>/dev/null \
     | jq -r --arg b "$name" '.[] | select(.branch == $b and .kind == "worktree") | .path' \
     | head -n1)
 fi

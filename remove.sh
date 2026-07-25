@@ -8,7 +8,7 @@ if ! command -v fzf >/dev/null; then
 fi
 
 herdr=${HERDR_BIN_PATH:-herdr}
-wtjson=$(wt list --format=json 2>/dev/null)
+wtjson=$(wt --config-set list.json-schema=1 list --format=json 2>/dev/null)
 
 # Removable = any real worktree except the main one (the primary checkout can't be
 # removed). The current worktree IS removable — wt switches you back to the root repo.
